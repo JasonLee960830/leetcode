@@ -1,0 +1,44 @@
+Given a non-negative integer num, repeatedly add all its digits until the result has only one digit.
+
+For example:
+
+Given num = 38, the process is like: 3 + 8 = 11, 1 + 1 = 2. Since 2 has only one digit, return it.
+
+Initial Solution:使用%运算把最低位取出，用一个变量累加后利用/运算将num高位降到低位，再重复操作知道num为0。将变量与10比较，如果大于则再recursion。
+
+class Solution {
+    public int addDigits(int num) {
+        int result=0;
+        while(num!=0){
+            result+=num%10;
+            num/=10;
+        }
+        return (result<=9)? result:addDigits(result);
+    }
+}
+
+
+Better solution
+
+For base b (decimal case b = 10), the digit root of an integer is:
+
+dr(n) = 0 if n == 0
+dr(n) = (b-1) if n != 0 and n % (b-1) == 0
+dr(n) = n mod (b-1) if n % (b-1) != 0
+or
+
+dr(n) = 1 + (n - 1) % 9
+Note here, when n = 0, since (n - 1) % 9 = -1, the return value is zero (correct).
+
+we can find that the result of this problem is immanently periodic, with period (b-1)
+~input: 0 1 2 3 4 …
+output: 0 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 …
+
+Henceforth, we can write the following code, whose time and space complexities are both O(1).
+
+class Solution {
+public:
+    int addDigits(int num) {
+        return 1 + (num - 1) % 9;
+    }
+};
