@@ -1,0 +1,76 @@
+Given a binary tree, find its maximum depth.
+
+The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+For example:
+Given binary tree [3,9,20,null,null,15,7],
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+return its depth = 3.
+
+Solution1:可以使用递归的方法，如果当前节点不存在，返回0，否则返回1+两边子树的最大深度。
+public int maxDepth(TreeNode root){
+  if(root==null){
+    return 0;
+  }
+  return 1+Math.max(maxDepth(root.left),maxDepth(root.right));
+}
+
+Solution2:使用BFS(Breadth-First-Search) 先进先出的原则，树的横向搜索，使用队列结构。
+
+
+    public int maxDepth(TreeNode root) {
+        if (root == null) return 0;
+        
+        int depth = 0;
+        Queue<TreeNode> nodes = new LinkedList<>();//队列声明语句
+        nodes.offer(root);												//nodes.offer(root)  加入节点语句
+        while (!nodes.isEmpty()) {
+            int size = nodes.size();
+            depth++;
+            while (size-- > 0) {										//此循环结束时完成了一层的横向遍历
+                TreeNode node = nodes.poll();				//弹出队列中一个节点
+                if (node.left != null) nodes.offer(node.left);
+                if (node.right != null) nodes.offer(node.right);
+            }
+        }
+        return depth;
+    }
+
+//////////////////////////Solution3:晚上看///////////////////
+
+
+public int MaxDepth(TreeNode root) {
+        TreeNode node = root;
+        Stack<TreeNode> nodeStack = new Stack<TreeNode>();
+        Stack<int> depthStack = new Stack<int>();
+        
+        int max = 0;
+        int depth = 1;
+        while (node != null || nodeStack.Count > 0)
+        {
+            if (node != null)
+            {
+                nodeStack.Push(node);
+                depthStack.Push(depth);
+                node = node.left;
+                depth++;
+            }
+            else
+            {
+                node = nodeStack.Pop();
+                depth = depthStack.Pop();
+                
+                if (depth > max) max = depth;
+                
+                node = node.right;
+                depth++;
+            }
+        }
+        
+        return max;
+    }
