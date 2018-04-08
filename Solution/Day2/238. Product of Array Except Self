@@ -1,0 +1,28 @@
+Description:
+Given an array of n integers where n > 1, nums, return an array output such that output[i] is equal to the product of all the elements of nums except nums[i].
+
+Solve it without division and in O(n).
+
+For example, given [1,2,3,4], return [24,12,8,6].
+
+
+Solution: 我没想出来......看的高票 方法太妙了。 主要将输出结果中的每一位结果分成该位的左边数组的乘积left和右边数组的乘积right,即res[i]=left*right.
+
+具体实现过程直接上代码：
+ public int[] productExceptSelf(int[] nums) {
+        int n=nums.length;
+        int[] res=new int[n];
+        int left=1;               //1即为数组第一位对应的left值
+        for(int i=0;i<n;i++){         //循环过程用分配的res空间记录每一位对应的left值！第一个left值就是1，因此后面位计算left的时候加了条件(i>0),当前位置的left值为left*nums[i-1]
+            if(i>0)
+                left=left*nums[i-1];
+            res[i]=left;
+        }
+        int right=1;            //1即为数组第末位对应的right值
+        for(int i=n-1;i>=0;i--){            //循环过程用已经记录left值的res空间，每位再乘以对应的right值，得到最终的res结果。记录每一位对应的right值时！第末个right值就是1，因此后面位计算right的时候加了条件(i>0)
+            if(i<n-1)
+                right=right*nums[i+1];
+            res[i]=res[i]*right;
+        }
+        return res;
+    }
