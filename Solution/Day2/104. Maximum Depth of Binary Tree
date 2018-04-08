@@ -41,7 +41,7 @@ Solution2:使用BFS(Breadth-First-Search) 先进先出的原则，树的横向�
         return depth;
     }
 
-//////////////////////////Solution3:晚上看///////////////////
+//////////////////////////Solution3:明天看///////////////////
 
 
 public int MaxDepth(TreeNode root) {
