@@ -1,0 +1,36 @@
+Given a roman numeral, convert it to an integer.
+
+Input is guaranteed to be within the range from 1 to 3999.
+
+
+
+Solution: 首先需要知道罗马数字转换的规则。
+          规则一： I-1  V-5 X-10 L-50 C-100 D-500 M-1000
+          规则二： IV-4 IX-9     XL-40  XC-90  CD-400 CM-900  注意：每种情况只要算一次就行
+          
+          接着可以将结果分两步计算：
+            Step1: 直接把字符串遍历一遍，按照规则一把结果计算出来；
+            Step2: 查找字符串中是否存在规则二中的情况，存在则将结果对应减去差值。
+            
+          public int romanToInt(String s) {
+        int sum=0;
+        if(s.indexOf("IV")!=-1) sum-=2;
+        if(s.indexOf("IX")!=-1) sum-=2;
+        if(s.indexOf("XL")!=-1) sum-=20;
+        if(s.indexOf("XC")!=-1) sum-=20;
+        if(s.indexOf("CD")!=-1) sum-=200;
+        if(s.indexOf("CM")!=-1) sum-=200;
+        char[]cs=s.toCharArray();
+        for(char c:cs){
+            if(c=='I') sum+=1;
+            if(c=='V') sum+=5;
+            if(c=='X') sum+=10;
+            if(c=='L') sum+=50;
+            if(c=='C') sum+=100;
+            if(c=='D') sum+=500;
+            if(c=='M') sum+=1000;
+            
+        }
+        return sum;
+        
+    }
