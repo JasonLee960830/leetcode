@@ -1,0 +1,12 @@
+Decription: 判断两棵树是不是完全一样
+
+solution:   采用递归的方法。  当当前节点值不想等时，直接return false,相等的时候，return 递归的左子树和右子树的结果的与，递归里的具体内容是如果两节点             都为空，则返回true,如果第一个 为空一个不为空，则返回false.
+  
+
+ public boolean isSameTree(TreeNode p, TreeNode q) {
+        if(p==null&&q==null) return true;
+        if(p==null||q==null) return false;
+        if(p.val==q.val)
+            return isSameTree(p.left,q.left)&&isSameTree(p.right,q.right);
+        return false;
+    }
