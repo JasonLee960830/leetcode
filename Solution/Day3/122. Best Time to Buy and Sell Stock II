@@ -1,0 +1,16 @@
+Description: 一列数组表示对应时刻的某物品的价格，你可以多次买入和卖出，求最大利益。
+Solution：题目比较简单，如果前后差值为正，则可买入再卖出，遍历一遍把利润加起来。
+public int maxProfit(int[] prices) {
+        int profit,sum=0;
+        for(int i=0;i<prices.length-1;i++){
+            if(prices[i]<prices[i+1]){
+            profit=prices[i+1]-prices[i];
+            sum+=profit;
+            }
+                
+        }
+        return sum;
+    }
+    
+    
+    尽管题目简单：但是 Arrogance is the first thing you want to avoid in an interview.
