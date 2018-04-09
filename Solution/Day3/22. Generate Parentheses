@@ -1,0 +1,53 @@
+Description：
+Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+
+For example, given n = 3, a solution set is:
+
+[
+  "((()))",
+  "(()())",
+  "(())()",
+  "()(())",
+  "()()()"
+]
+
+Solution: 这道题非常的有趣，获得了很多的赞。一开始毫无头绪，仔细分许后这个问题是可以划分成子问题也就是用递归的方法求解。首先我们明确每一个解的最终形态是字符串的长度为2*n,所以当满足了一定限制后字符串能够达到2*n的长度时就可以返回了。
+          这时候再考虑限制的问题。首先字符串的开头必须要是"("，其次在每次添加半括号前要保证闭括号的数量一定比开括号少，而且添加后开括号数量不能超过n.
+          
+          
+        public List<String> generateParenthesis(int n) {
+     List<String>list=new ArrayList<>();
+     backtrack(list,"",0,0,n);
+     return list;
+     
+ }
+//     public void backtrack(List<String> list,String str,int open,int close,int max){
+//         if(str.length()==2*max){
+//             list.add(str);
+//             return;
+//         }
+//         if(open<max){
+//             str+="(";     在这里这样更新str会报错！！！递归算法要把赋值放在递归函数里面！！！！！原因不明！！！！哈哈哈
+//             backtrack(list,str,open+1,close,max);
+//         }
+//         if(close<open){
+//             str+=")";
+//             backtrack(list,str,open,close+1,max);
+//         }
+        
+//     }
+    
+
+    
+    public void backtrack(List<String> list, String str, int open, int close, int max){
+        
+        if(str.length() == max*2){
+            list.add(str);
+            return;
+        }
+        
+        if(open < max)
+            backtrack(list, str+"(", open+1, close, max);
+        if(close < open)
+            backtrack(list, str+")", open, close+1, max);
+    }
