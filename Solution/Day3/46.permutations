@@ -18,3 +18,25 @@ Solution:采用回溯法
 
 多个解：这时递归函数可以是void类型，这样就可以搜全部的解，for循环结束也不需要处理。
 
+对于这道题目来说，首先第一步处理， 如果List<Integer>tempList的长度达到了数组的长度，则可以把这个结果添加入List<List<Integer>>list中
+否则执行for循环：，判断选择正确的方法就是看当前的tempList内是否有预添加的元素，如果有，则跳过，无的话，则tempList.add(),接下来递归下一步处理，恢复的处理用tempList.remove(tempList.size()-1)（）供下一次for循环重新尝试选择
+
+ public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>>list=new ArrayList<>();
+        backtrack(list,new ArrayList<>(),nums);
+        return list;
+    }
+    private void backtrack(List<List<Integer>>list,List<Integer>tempList,int[]nums){
+        if(tempList.size()==nums.length)
+            list.add(new ArrayList(tempList));//尤其小心这里不能直接引用tempList
+        else{
+            for(int i=0;i<nums.length;i++){
+                if(tempList.contains(nums[i])) continue;
+                tempList.add(nums[i]);
+                backtrack(list,tempList,nums);
+                tempList.remove(tempList.size()-1);//完成回溯的重要步骤，清除轨迹，删除当前templist的最后一个值
+            }
+        }
+    }
+
+不能引用tempList去add的原因是tempList is a list that is used throughout all the recursive calls to keep track of the current recursion path. When we finally reach the base case, we cannot add this same list to the list of lists. This is because when you add tempList, you are adding a reference to tempList. This means that other recursive paths can modify the path you just inserted into the final list of lists.
