@@ -11,5 +11,14 @@ For example:
     AA -> 27
     AB -> 28 
     
-    Solution: 此题比较简单，只需要发现这相当于一个base是27的关系，第1个字符对应的数值为26*0+该字符在字母表的位置，第2字符对应的数值为26*1+该字符在字母表的位置。因此我们
+    Solution: 此题比较简单，只需要发现这相当于一个base是27的关系，第1个字符对应的数值为26*0+该字符在字母表的位置，第2字符对应的数值为26*1+该字符在字母表的位置。因此我们可以归纳result=result*26+title[i]-'A'+1,result初始值为0;
+    
+    public int titleToNumber(String s) {
+        char[] title=s.toCharArray();
+        int result=0;
+        for(int i=0;i<title.length;i++){
+            result=26*result+title[i]-'A'+1;
+        }
+        return result;
+    }
   
