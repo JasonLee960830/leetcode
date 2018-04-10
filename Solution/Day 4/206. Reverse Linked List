@@ -1,0 +1,28 @@
+description:反转一个链表
+
+Solution:  我认为使用三个指针是最清楚的。  pre  cur 和next.   其中 pre 和cur是前后指针，  next的作用仅仅是当改变cur的next指针时会找不到原先的后继，所以提前把cur.next用next给记录下来。
+
+初始化让pre,next都为null（其中让pre设为null的意义在于给反转的链表末尾节点添加后继null！！next设为啥都无所谓）， cur=head.然后判断当cur不为null 的时候，第一步先把cur的后继用next保存下来，然后把cur的新后继设为pre,接下来两行过程就是更新pre和cur的指针位置，向后移一位，即pre=cur,cur=next.如此循环到当cur=null时，相应的在此时pre应该正好在原链表的末尾！故返回pre即可.
+
+public ListNode reverseList(ListNode head) {
+    ListNode prev = null;
+    ListNode curr = head;
+    while (curr != null) {
+        ListNode nextTemp = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = nextTemp;
+    }
+    return prev;
+}
+
+
+
+Solution2:  现在还不理解，有空研究。 leetcode的solution 2  用递归。
+public ListNode reverseList(ListNode head) {
+    if (head == null || head.next == null) return head;
+    ListNode p = reverseList(head.next);
+    head.next.next = head;
+    head.next = null;
+    return p;
+}
