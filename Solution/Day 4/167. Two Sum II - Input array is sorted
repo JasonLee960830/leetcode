@@ -1,0 +1,22 @@
+Description:   给一个已经升序排序好的数组，返回相加得特定值的两个值的对应的位置。如[1,2,4,8]  target=5,  返回[1,3].
+
+Solution: 这道题如果用HashMap来做的话将十分简单，只要将value 和对应的key赋值后，用entrySet去遍历，如果有和当前值相加为target的，返回这两个key，没有则go on.但是这道题给了一个升序条件，因此我们可以用更简洁的办法。
+          在数组的头和尾部分别设置一个指针，当两支针对应的值相加为target时返回指针位置，否则判断是大于target还是小于target,如果大于则将尾部的指针向后移，小于则将头部的指针向前移，while循环的条件是头部指针位置一只小于尾部指针位置。
+   public int[] twoSum(int[] nums, int target) {
+       
+        int start=0,end=nums.length-1;
+        int[] indices=new int[2];
+     while(start<end){
+         if(nums[start]+nums[end]==target)
+         {
+             indices[0]=start+1;
+             indices[1]=end+1;break;
+       
+         }
+         else if(nums[start]+nums[end]>target)
+             end--;
+         else{start++;}
+     }   
+        return indices;
+       
+}
