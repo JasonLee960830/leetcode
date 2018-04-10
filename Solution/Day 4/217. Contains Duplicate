@@ -1,0 +1,4 @@
+Description:
+一个数组如果有重复值，就返回真，没有则返回假
+
+Solution:可以用HashSet存储，如果最终set.size()!=nums.length,则true.
