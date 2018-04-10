@@ -1,0 +1,6 @@
+Description: 给一个链表，删除非尾部的node，返回新的list.
+Solution: 因为我们不能操作该node 的前指针，只能将node 的后继节点的指针和val复制过来，覆盖掉node 的val且跳过了node 的后继，相当于把后继前移了。
+public void deleteNode(ListNode node){
+    node.val=node.next.val;
+    node.next=node.next.next;
+}
