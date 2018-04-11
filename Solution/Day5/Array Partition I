@@ -1,0 +1,21 @@
+Desscription: Given an array of 2n integers, your task is to group these integers into n pairs of integer, say (a1, b1), (a2, b2), ..., (an, bn) which makes sum of min(ai, bi) for all i from 1 to n as large as possible.
+
+分析： 一列2n数组，可以构成n对数字对，怎样构成这n对数字对，使得这n对数字对中的n个较小值的和最大呢？我们可以想象一个极端情况，一个数字对中，(1,1000)，结果取了较小值1，那么1000这么大的数字就直接被浪费了，这样分析还不够清楚，再来一个例子，[1,2,3,4]。我把1和4放在一起 2和3在一起，取出1和2；我把1和2放在一起，3和4放在一起，取出了1和3，后者更好，因为数字对内的数字更加接近。因此我们只需要将数组排序后再取奇数位数字即可。
+
+
+Arrays.sort(nums)
+
+
+严格证明：  假设最大值和第二大值在一起和不在一起的情况，可以分析出在一起值更大， 再以此类推出以上的结论。
+
+
+public class Solution {
+    public int arrayPairSum(int[] nums) {
+        Arrays.sort(nums);
+        int result = 0;
+        for (int i = 0; i < nums.length; i += 2) {
+            result += nums[i];
+        }
+        return result;
+    }
+}
