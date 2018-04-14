@@ -1,0 +1,52 @@
+Example:
+Input: grid = [[3,0,8,4],[2,4,5,7],[9,2,6,3],[0,3,1,0]]
+Output: 35
+Explanation: 
+The grid is:
+[ [3, 0, 8, 4], 
+  [2, 4, 5, 7],
+  [9, 2, 6, 3],
+  [0, 3, 1, 0] ]
+
+The skyline viewed from top or bottom is: [9, 4, 8, 7]
+The skyline viewed from left or right is: [8, 7, 9, 3]
+
+The grid after increasing the height of buildings without affecting skylines is:
+
+gridNew = [ [8, 4, 8, 7],
+            [7, 4, 7, 7],
+            [9, 4, 8, 7],
+            [3, 3, 3, 3] ]
+            
+            
+Solution:the thinking method is quite simple, for we can just follow the process of the example. First, we get the array of from top and from left. Then every element in the final gridNew ,for example,grid[i][j] should be smaller than top[j] and left[i] which means it should be the smaller value between top[j] and left[i].
+
+Note:  Take care not to upside down the index of grid[][].
+
+
+public int maxIncreaseKeepingSkyline(int[][] grid) {
+        if(grid.length==0||grid==null) return 0;
+        int row=grid.length;
+        int column=grid[0].length;
+        int[] topbot=new int[column];
+        int[] leftright=new int[row];
+        for(int i=0;i<column;i++){
+            for(int j=0;j<row;j++){
+                topbot[i]=Math.max(topbot[i],grid[j][i]);
+            }
+        }
+        for(int i=0;i<row;i++){
+            for(int j=0;j<column;j++){
+                leftright[i]=Math.max(leftright[i],grid[i][j]);
+                }
+            }
+        int res=0;
+        for(int i=0;i<row;i++){
+            for(int j=0;j<column;j++){
+                res+=Math.min(leftright[i],topbot[j])-grid[i][j];
+                
+            }
+        }
+        
+        return res;
+        }
