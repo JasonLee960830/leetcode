@@ -1,0 +1,7 @@
+如题。利用递归的思想，当节点为null时到达了该支点的最深处，此时返回0，否则返回1+该节点左孩子的深度或者1+该节点右孩子的深度，取左边还是右边取决于那边更大，故代码为：
+ public int maxDepth(TreeNode root) {
+        if (root==null)
+            return 0;
+        return 1+Math.max(maxDepth(root.left),maxDepth(root.right));
+        
+    }
