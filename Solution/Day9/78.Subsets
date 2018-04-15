@@ -1,0 +1,26 @@
+Description: 求解一个数组的所有子集。
+Solution: 暴力回溯求解。
+
+定义一个回溯函数，四个参量，第一个是最终在主函数里面要返回的list,第二个是回溯过程中的中间变量tempList,第三个是数组nums,第四个是递归到更深层时需要增加的数组的其实位置start.
+
+在定义的private的回溯函数内分三个步骤： 1.将tempList以产生一个新的链表的方式加入list.(因为这题所有子集都是解，所以每次递归都会添加值到list)
+                                     2.构建循环
+                                     3.循环中第一步试探加入该起点的第一个值，然后第二步递归（递归函数中第四个参数要更新），第三部是在该层的递归结束                                         后删除足迹remove(tempList.size()-1)
+                                     
+                                     
+                                     
+                                     
+    public List<List<Integer>> subsets(int[] nums) {
+       List<List<Integer>> list =new ArrayList<>();
+        Arrays.sort(nums);
+        backtrack(list,new ArrayList<>(),nums,0);
+        return list;
+    }
+    private void backtrack(List<List<Integer>> list, List<Integer> tempList,int[]nums,int start){
+        list.add(new ArrayList<>(tempList));
+        for(int i=start;i<nums.length;i++){
+            tempList.add(nums[i]);
+            backtrack(list,tempList,nums,i+1);
+            tempList.remove(tempList.size()-1);
+        }
+    }
