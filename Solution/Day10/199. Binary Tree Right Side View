@@ -1,0 +1,41 @@
+Description:  返回一个二叉树从右边看过去得到的值的一个链表
+
+Solution 1:   最终的结果应该是在树的每一层取了一个值，而且是相对最右边的值。即如果有右子树取了值，则左子树不再加值进去。可以用list当前的size和当前递归到的层的深度来比较。把根当作第零层，与list的size为0对应。
+
+public List<Integer> rightSideView(TreeNode root){
+    List<integer> list=new ArrayList<>();
+    helper(root,list,0);
+    return list;
+}
+public void helper(TreeNode root,List<Integer>list,depth){
+    if(root==null)
+    return;
+    if(depth==list.size())
+    list.add(root.val);
+    helper(root.right,list,depth+1);
+    helper(root.left,list,depth+1);
+}
+
+Solution 2 BFS   只将每层中存入队列的第一个值add，其余不add。
+public List<Integer> rightSideView(TreeNode root){
+ Queue<TreeNode> queue=new LinkedList<>();
+    List<Integer>list=new ArrayList<>();
+    if(root==null)
+    return list;
+    queue.offer(root);
+    while(queue.size()!=0){
+        int size=queue.size();
+        for(int i=0;i<size;i++){
+            TreeNode cur=queue.peek();
+            if(i==0) list.add(cur.val);   //只取每层第一个元素
+           if(cur.right!=null) queue.offer(cur.right);
+            if(cur.left!=null) queue.offer(cur.left);//这一步为什么不能直接把cur改成queue.poll()，然后把下一行去掉呢？
+             queue.poll();
+        }
+    }
+    return list;  
+}
+
+note: 尤其注意1:queue.size()在出现了queue.poll()之后值会改变，不能当成不变的常量！！
+
+
