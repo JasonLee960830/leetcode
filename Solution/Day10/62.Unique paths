@@ -1,0 +1,17 @@
+Description: 一个方形棋盘，告诉长宽格子数，每次走一格，求从左上角走到右下角有多少中不同的路径
+solution: 典型排列组合问题，算出总共要走的步数m+n-2，再算要向下走的步数m-1，即问在总步数中挑m-1个位置作为向下（向下走各步没有差异，故组合）。
+ 
+ public Solution{
+            int N = n + m - 2;// how much steps we need to do
+            int k = m - 1; // number of steps that need to go down
+            double res = 1;
+            // here we calculate the total possible path number 
+            // Combination(N, k) = n! / (k!(n - k)!)
+            // reduce the numerator and denominator and get
+            // C = ( (n - k + 1) * (n - k + 2) * ... * n ) / k!
+            for (int i = 1; i <= k; i++)
+                res = res * (N - k + i) / i;
+            return (int)res;
+  }
+  
+  note:要注意res要定义double型防止溢出（因为在循环中乘积过程可能会溢出int范围）
