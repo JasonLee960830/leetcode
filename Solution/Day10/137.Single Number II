@@ -1,0 +1,20 @@
+除了一个single number 以外，其余所有数字都是重复了三次。找出这个single number
+
+
+Solution:  sort排序后，single number只会出现在两种地方， 我们每三个数字三个数字捆绑着在循环里面进行分析。如果当前三个数字里面nums[i]!=nums[i+2]了，那么答案就一定是这两个数字种的一个了，与nums[i+1]不相等的就是答案！倘若这样知道循环结束了都还没有这种情况出现，那么结果就只能在数组的最后了～
+
+
+public int singleNumber(int[] nums) {
+        if(nums.length<3) return nums[0];
+        Arrays.sort(nums);
+        for(int i=0;i<nums.length-3;i+=3){
+            if(nums[i]!=nums[i+2]){
+               // if(nums[i]==nums[i+1])
+               //     return nums[i+2];
+               // else return nums[i];
+                return nums[i]==nums[i+1]?nums[i+2]:nums[i];
+            }
+                
+        }
+        return nums[nums.length-1];
+    }
