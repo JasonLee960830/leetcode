@@ -1,0 +1,23 @@
+Description:   creat height balanced BST.
+
+Solution:  
+        
+        review: A height balanced BST requires that the difference of the subtree's depths should be fewer than one, which means that the node dividing the sum of its subtree's elements should be in the middle.
+        
+        
+        public TreeNode sortedArrayToBST(int[] nums) {
+        if(nums.length==0) return null;
+        TreeNode node=helper(nums,0,nums.length-1);
+        return node;
+    }
+    private TreeNode helper(int[]nums,int low,int high){
+        if(low>high)                 ////遍历的最终情况
+            return null;
+        else{                                       
+            int mid=(low+high)/2;                   ////遍历的过程
+            TreeNode node=new TreeNode(nums[mid]);   ////遍历的过程
+            node.left=helper(nums,low,mid-1);         ////遍历的过程
+            node.right=helper(nums,mid+1,high);       ////遍历的过程
+            return node;                              ////遍历的结果
+        }
+    }
