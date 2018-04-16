@@ -1,0 +1,78 @@
+Description: 有n+1个数字，都在1-n的范围内，现在假设重复的只有一个数字，找到这个数字。
+
+Constraints: 1.这个重复的次数可以不只为1.
+             2.空间复杂度为常数，时间复杂度O(n2).
+             
+Analysis:  首先看到题目的描述第一反应就是直接把所有数组相加，然后减去（1+n）*n/2,差值就是重复的这个duplicates.可是第一个限制就打破了我这个想法，因为重复的次数可以不止一次。我的第二个想法是采用HashSet,添加值，哪次添加值之后set的size 没有改变或者使用set.contains(num)返回为true时，将这个num return即可。这样做勉强能够得到正确的结果。
+public int findDuplicate(int[] nums) {
+        Set<Integer>set=new HashSet<>();
+        for(int num:nums){
+            int size=set.size();
+            set.add(num);
+            if(set.size()==size)
+                return num;
+        }
+        return -1;
+    }
+    
+ 或者
+ 
+    public int findDuplicate(int[] nums) {
+        Set<Integer> seen = new HashSet<Integer>();
+        for (int num : nums) {
+            if (seen.contains(num)) {
+                return num;
+            }
+            seen.add(num);
+        }
+
+        return -1;
+    }
+    
+但是这样做的空间复杂度是o(n),不是常数，也不完全满足要求。
+
+Solution 2:我们可以想象将这个数组sort排序以后，相同的数字肯定相邻，因此只需要在每次循环中判断相邻值是否相等即可。
+class Solution {
+    public int findDuplicate(int[] nums) {
+        Arrays.sort(nums);
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] == nums[i-1]) {
+                return nums[i];
+            }
+        }
+
+        return -1;
+    }
+}
+
+时间复杂度: sort . O(nlog(n))
+空间复杂度： O(1)
+
+solution 3: cycle detection.
+  这个方法很巧妙，需要一些数学证明。因为也很常用，所以可以直接来用。主要过程分两步：
+  1.判断这个num是否存在循环。
+  关于循环，我们对于链表的循环理解更加直观，但是数组的循环该怎么理解呢？我们可以将循环的每个step理解成数组的index 和对应value的递进。每进一步就把当前的value当作下一位置的index.因为这题中的每个value取值在1-n之间，因此当作下一个step的index时总是有效的，根据floyd's turtle and hare的算法，我们首先第一步找寻intersection的位置，然后再找entry point of the cycle.
+ 
+    public int findDuplicate(int[] nums) {  
+        // Find the intersection point of the two runners.
+        int tortoise = nums[0];
+        int hare = nums[0];
+        do {
+            tortoise = nums[tortoise];//1次1步
+            hare = nums[nums[hare]];//1次2步
+        } while (tortoise != hare);
+
+        // Find the "entrance" to the cycle.
+        int ptr1 = nums[0];
+        int ptr2 = tortoise;
+        while (ptr1 != ptr2) {
+            ptr1 = nums[ptr1];
+            ptr2 = nums[ptr2];
+        }
+
+        return ptr1;
+    }
+    
+   找到intersection的那个节点的特点是从该位置到entry的距离和起点到entry的距离相等，当再次相等即为cycle的入口，即两个重复值产生的地方。
+   
+   详细解释和证明   https://blog.csdn.net/xyzxiaoxiong/article/details/78761940
