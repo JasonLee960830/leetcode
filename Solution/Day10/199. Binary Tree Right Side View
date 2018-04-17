@@ -29,7 +29,7 @@ public List<Integer> rightSideView(TreeNode root){
             TreeNode cur=queue.peek();
             if(i==0) list.add(cur.val);   //只取每层第一个元素
            if(cur.right!=null) queue.offer(cur.right);
-            if(cur.left!=null) queue.offer(cur.left);//这一步为什么不能直接把cur改成queue.poll()，然后把下一行去掉呢？
+            if(cur.left!=null) queue.offer(cur.left);//这一步最后一个cur如果改成queue.poll(),然后把下一行的queue.poll()删除，会出现Time Limit Exceed的错误，因为如果cur.left为空的话，就没有删除操作了，队列的值就会越来越多，进入死循环。
              queue.poll();
         }
     }
@@ -37,5 +37,6 @@ public List<Integer> rightSideView(TreeNode root){
 }
 
 note: 尤其注意1:queue.size()在出现了queue.poll()之后值会改变，不能当成不变的常量！！
+            2:队列一定要有弹出操作实现！！！弹出不能放在条件语句中。
 
 
