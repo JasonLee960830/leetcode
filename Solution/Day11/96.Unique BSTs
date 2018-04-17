@@ -1,0 +1,26 @@
+Description: 由value从1-n,n个数字能构成多少个BST??
+
+Solution: 动态规划问题。n=1,2,3,4,5逐个分析之后我们会发现，自dp[0]=1,dp[1]=1之后，
+                              dp[2]=dp[0]*dp[1]+dp[1]*dp[0],
+                              dp[3]=dp[0]*dp[2]+dp[1]*dp[1]+dp[2]*dp[0]    
+                              dp[k]=dp[0]*dp[k-1]+dp[1]*dp[k-2]+dp[2]*dp[k-3]+.......+dp[k-1]*dp[0]
+                              
+          value是1-k时，dp[0]*dp[k-1]是当root为1时的情况，此时剩余k-1个数字全在root的右子树下，右子树有dp[k-1]种可能
+                       dp[1]*dp[k-2]是当root为2的情况下，此时左子树只能是1,右子树是剩下k-2个数字，有dp[k-2]种可能。root的左右子树排列可能性相乘
+                       dp[m]+dp[k-1-m]是当root为m+1的情况下，此时左子树是1~m,右子树是剩下k-1-m个数字，有dp[k-1-m]种可能。root的左右子树排列可能性相乘
+                       
+                       
+         把value从0到n的值全部都一一算出来存在数组中，最后return dp[n]即可
+                 
+                       
+  public int numTrees(int n) {
+        int[]dp=new int[n+1];
+        dp[0]=1;
+        dp[1]=1;
+        for(int level=2;level<=n;level++){
+            for(int i=0;i<level;i++){
+                dp[level]+=dp[i]*dp[level-1-i];
+            }
+        }
+        return dp[n];
+    }                      
