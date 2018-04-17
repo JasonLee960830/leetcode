@@ -1,0 +1,22 @@
+Description:将一个矩阵顺时针旋转90度。
+
+Solution:先把矩阵上下反转，然后在对角线翻折。
+
+
+ public void rotate(int[][] matrix) {
+        int s=0,e=matrix.length-1;
+        while(s<e){
+            int[] tmp=matrix[e];
+            matrix[e]=matrix[s];
+            matrix[s]=tmp;
+            s++;
+            e--;
+        }
+        for(int i=0;i<matrix.length;i++){
+            for(int j=0;j<i;j++){
+                int tmp=matrix[i][j];
+                matrix[i][j]=matrix[j][i];
+                matrix[j][i]=tmp;
+            }
+        }
+    }
