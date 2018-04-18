@@ -1,0 +1,24 @@
+Description: given an array where the elements are no duplicates. find the combinations that the sum of some elements in the array is equal to target. These elements can be the reused for umlimited times.
+
+Solution: 此题第一反应就是使用backTrack方法。需要注意每次递归使用backTrack的时候可以重复使用num[i],因此start等于i而不用i+1.(如果题目要求不能重复使用则start赋值i+1)
+
+public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>>list=new LinkedList<>();
+        if(candidates.length==0)
+            return list;
+        List<Integer>tmpList=new LinkedList<>();
+        backTrack(list,tmpList,candidates,target,0);
+        return list;
+    }
+    public void backTrack(List<List<Integer>>list,List<Integer>tmpList,int[] candidates,int target,int start){
+        if(target<0)
+            return;
+        if(target==0)
+            list.add(new LinkedList(tmpList));
+        for(int i=start;i<candidates.length;i++){
+            int remove=candidates[i];
+            tmpList.add(remove);
+            backTrack(list,tmpList,candidates,target-remove,i);
+            tmpList.remove(tmpList.size()-1);
+        }
+    }
