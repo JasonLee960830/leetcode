@@ -1,0 +1,23 @@
+Description:  given n and k, return all the combinations of k numbers in 1～n.
+Solution: 最简便的方法就是使用backTrack咯。
+
+note: 递归时start的更新除了需要加1来防止重复加值，递归时更新的start应该以上一层的i所在的位置来定，即i+1，不应该是start+1！！！
+   public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>>list=new LinkedList<>();
+        List<Integer>tmpList=new LinkedList<>();
+        if(k<1)
+            return list;
+        backTrack(list,tmpList,n,k,1);
+        return list;
+    }
+    public void backTrack(List<List<Integer>>list,List<Integer>tmpList,int n,int num,int start){
+        if(num==0){
+            list.add(new LinkedList(tmpList));
+            return;
+        }
+        for(int i=start;i<=n;i++){
+            tmpList.add(i);
+            backTrack(list,tmpList,n,num-1,i+1);
+            tmpList.remove(tmpList.size()-1);
+        }
+    }
