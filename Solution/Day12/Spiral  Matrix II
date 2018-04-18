@@ -1,0 +1,32 @@
+
+Description:Given a positive integer n, generate a square matrix filled with elements from 1 to n2 in spiral order.
+
+Solution: n阶的矩阵，从左上角1开始，螺旋增加，最终值为n平方。先给上边赋值，更新top到下次需要赋值的位置;再给右边赋值,更新right到下次需要赋值的位置;再给下边赋值,更新bottom到下次需要赋值的位置；再给左边赋值，更新left到下次需要赋值的位置.
+          因为更新是再赋值之后，所以当left==right或者top==bottom的时候仍需要继续进行，还有位置没有赋值,所以用while(left<=right&&top<=bottom)
+
+
+
+public int[][] generateMatrix(int n) {
+        int[][]num=new int[n][n];
+        int top=0,bottom=n-1,left=0,right=n-1;
+        int number=1;
+        while (left<=right&&top<=bottom){
+            for(int i=left;i<=right;i++){
+                num[top][i]=number++;
+            }
+            top++;
+            for(int i=top;i<=bottom;i++){
+                num[i][right]=number++;
+            }
+            right--;
+            for(int i=right;i>=left;i--){
+                num[bottom][i]=number++;
+            }
+            bottom--;
+            for(int i=bottom;i>=top;i--){
+                num[i][left]=number++;
+            }
+            left++;
+        }
+        return  num;
+    }
