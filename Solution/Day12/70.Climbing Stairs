@@ -1,0 +1,34 @@
+Description: 每次走1步或者2步，有多少种不同的可能性走完n步
+Solution: 这类型的题目就是斐波那契问题，即走k步的策略是走k-1步的策略与k-2步的策略的和因为最终走完k步的前一步一定是差一步走到或者差两步走到，只需要把这两种情况的策略分别计算出并且求和即可。
+
+
+方法1:用数组把每走k步的策略数存在相应的num[k]位置上，设定num[0]=1    空间复杂度O(n)   时间复杂度O(n)
+public int climbStairs(int n) {
+        if(n<=2) 
+            return n;
+        int[]num=new int[n+1];
+        num[0]=1;
+        num[1]=1;
+        for(int i=2;i<=n;i++){
+           num[i]=num[i-1]+num[i-2];
+        }
+        return num[n];         
+    }
+
+
+方法2:用两个个变量把走到第k-1和k-2步的策略数分别存下，求和计算现在k步的策略数，再更新步骤：把第k-1步的步数策略设为新的k-2的步数策略，把k的步数策略设为k-1的步数策略。              空间复杂度O(1)   时间复杂度O(n)
+ public int climbStairs(int n) {
+        if(n<=2) 
+            return n;
+        int last=1;
+        int llast=1;
+        int cur=0;
+        for(int i=2;i<=n;i++){
+           cur=last+llast;
+            llast=last;
+            last=cur;
+        }
+        return last;         
+    }
+    
+    
