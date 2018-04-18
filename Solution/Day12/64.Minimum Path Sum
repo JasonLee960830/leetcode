@@ -1,0 +1,32 @@
+Description: 给定一个m*n的数组，求从左上角走到右下角的最短路径。最短路径就是把经过的元素全部求和。
+
+Solution:想到这种走路的题目第一反应就应该是dp 问题。这道题我们可以分配一个m*n的新的空间，每个空间记录从左上角走到这个位置的最短路径。对于不在最顶行和最左列的如【i，j】，最短路径只有两种取值的可能，要么是上方[i-1,j]的最短路径值加上数组当前[i,j]的值，要么是左方[i,j-1]的最短路径加上数组当前[i,j]的值，取这两种情况的较小值作为该位置的最短路径；对于在最顶行的元素的最短路径，只有一种可能，即其左边元素的最短路径加上当前元素；对于在最左列的元素的最短路径，只有一种可能，即其上边元素的最短路径加上当前元素。
+
+public int minPathSum(int[][] grid) {
+    if (grid == null || grid.length == 0) return 0;
+    int[][] dp = new int[grid.length][grid[0].length];
+
+    for (int i = 0; i < grid.length; i++) {
+        for (int j = 0; j < grid[i].length; j++) {           //记录每个元素的dp[i,j]
+            if (i == 0 && j == 0) dp[i][j] = grid[i][j];     //左上角的初始值
+            else if (i == 0) dp[i][j] = grid[i][j] + dp[i][j - 1];      //最顶行计算path
+            else if (j == 0) dp[i][j] = grid[i][j] + dp[i - 1][j];      //最左行计算path
+            else dp[i][j] = grid[i][j] + Math.min(dp[i - 1][j], dp[i][j - 1]);  //一般位置的计算path
+        }
+    }
+    return dp[grid.length - 1][grid[0].length - 1];
+    }
+    
+    空间复杂度O(n2)
+    时间复杂度O(n2)
+    
+    optimization:  可以不用额外开辟一个等大的矩阵去专门存储path，可以直接在遍历到每个值的时候直接修改，空间复杂度O(1)
+    int m = grid.length, n = grid[0].length;
+for(int i = 0; i < m; i++){
+	for(int j = 0; j < n; j++){
+	if(i == 0 && j != 0) grid[i][j] += grid[i][j-1];
+	if(i != 0 && j == 0) grid[i][j] += grid[i-1][j];
+	if (i != 0 && j != 0) grid[i][j] += Math.min(grid[i-1][j], grid[i][j-1]);
+	}
+}
+return grid[m-1][n-1];
