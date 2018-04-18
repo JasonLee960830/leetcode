@@ -1,0 +1,33 @@
+description:
+一个有序的数组经过某一个支点将左右两边的值整体对调了之后，求这个数组的最小值。
+
+Solution 1:  傻傻的我直接就当成求最小值计算了。
+
+public int findMin(int[] nums) {
+        int min=nums[0];
+        for(int i=1;i<nums.length;i++){
+            if(nums[i]<min)
+                min=nums[i];
+        }
+        return min;
+    }
+    
+    固然是没错了，但是时间复杂度O(n)明显可以优化，况且相当于题目的条件就没有用上啊····
+    
+    采用二分法。
+    倘若中间值大于右边值，则最小值肯定在中间～右边这一块，反之则在另外一边，这样的思路时间复杂度是o(lgn)
+    
+    
+    public int findMin(int[] nums) {
+    int left = 0;
+    int right = nums.length - 1;
+    while(left < right) {
+        int mid = left + (right - left) / 2;
+        if(nums[mid] < nums[right]) {
+            right = mid;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return nums[left];
+}
