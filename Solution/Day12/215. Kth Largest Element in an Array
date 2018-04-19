@@ -49,19 +49,20 @@ public class Solution {
         return nums[start];
     }
     
-    private int partion(int[] nums, int start, int end) {      
-        int pivot = start, temp;
+    private int partion(int[] nums, int start, int end) {      //单次排序
+        int pivot = start, temp;
         while (start <= end) {
-            while (start <= end && nums[start] <= nums[pivot]) start++;
-            while (start <= end && nums[end] > nums[pivot]) end--;
-            if (start > end) break;
-            temp = nums[start];
-            nums[start] = nums[end];
-            nums[end] = temp;
+            while (start <= end && nums[start] <= nums[pivot]) start++; //向右边找比nums[pivot]大的值
+            while (start <= end && nums[end] > nums[pivot]) end--;      //向左边找比nums[pivot]小的值
+            if (start > end) break;      //此为已经结束排序，只需进行pivot和end位置的值的交换即可
+            temp = nums[start];          //此为找到两个符合条件的值的交换
+           nums[start] = nums[end];      //
+            nums[start] = nums[end];     //
+            nums[end] = temp;            //
         }
-        temp = nums[end];
-        nums[end] = nums[pivot];
-        nums[pivot] = temp;
+        temp = nums[end];                //此为已经结束排序，只需进行pivot和end位置的值的交换即可  
+        nums[end] = nums[pivot];         //
+        nums[pivot] = temp;              //
         return end;
     }
 }
