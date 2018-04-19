@@ -1,0 +1,90 @@
+Description: 判断一个二叉树是不是关于自身对称的。
+
+Solution 1 : 可以设计一个function,输入左右节点，如果为空，判断是否都为空，都不为空的情况下，判断是否val相等，不相等直接返回false,相等的话就进行递归，这里递归的两个节点要注意是left.left和right.right比较，left.right与right.left比较。返回这两对节点的&&结果。
+
+
+public boolean isSymmetric(TreeNode root) {
+       return(root==null||isSymmetrichelper(root.left,root.right));
+    }
+    public boolean isSymmetrichelper(TreeNode left, TreeNode right){
+        if(left==null||right==null)
+            return left==right;
+        if(left.val!=right.val)
+            return false;
+        return isSymmetrichelper(left.left,right.right)&&isSymmetrichelper(left.right,right.left);
+    }
+    
+Solution 2 : stack Iterative.   while循环外的都是很容易明白，初次进入while循环的初始状态应该是root的左右子树都已经push进了stack，在while中弹出对衬位置的left,right后,使用和while之外处理left,right的相同的方法,然后分别处理(left.left,right,right)和（left.right,right,left）
+
+
+
+public boolean isSymmetric(TreeNode root) {
+    if(root==null)  return true;
+    
+    Stack<TreeNode> stack = new Stack<TreeNode>();
+    TreeNode left, right;
+    if(root.left!=null){
+        if(root.right==null) return false;
+        stack.push(root.left);
+        stack.push(root.right);
+    }
+    else if(root.right!=null){
+        return false;
+    }
+        
+    while(!stack.empty()){
+        right = stack.pop();
+        left = stack.pop();
+        if(right.val!=left.val) return false;
+        
+        if(left.left!=null){
+            if(right.right==null)   return false;
+            stack.push(left.left);
+            stack.push(right.right);
+        }
+        else if(right.right!=null){
+            return false;
+        }
+            
+        if(left.right!=null){
+            if(right.left==null)   return false;
+            stack.push(left.right);
+            stack.push(right.left);
+        }
+        else if(right.left!=null){
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+
+
+使用stack相当于深度遍历，如果此题用queue就是广度遍历
+
+Solution 3 : queue iterative(这个是思路最清晰的)
+
+
+
+public boolean isSymmetric(TreeNode root) {
+        if(root == null) return true;
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.offer(root.left);
+        queue.offer(root.right);
+        while(!queue.isEmpty()){
+            TreeNode left = queue.poll();
+            TreeNode right = queue.poll();
+            if(left == null && right == null) continue;          //对称位置都null 👌
+            if(left == null || right == null) return false;     // 执行到这步时已经排除了都为null的可能！
+           if(left.val != right.val) return false;
+            queue.offer(left.left);      //这四步要尤其注意对应位置的要在一起offer!!!!
+           queue.offer(right.right);
+            queue.offer(left.right);
+            queue.offer(right.left);
+            
+        }
+        return true;
+        
+    }
+  
