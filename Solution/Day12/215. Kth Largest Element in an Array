@@ -1,0 +1,68 @@
+Solution 1: 利用sort函数  O(N lg N) running time + O(1) memory
+
+public int findKthLargest(int[] nums, int k) {
+        final int N = nums.length;
+        Arrays.sort(nums);
+        return nums[N - k];
+}
+
+Solution 2:  使用priority queue 最小堆求第kth大的数字      O(N lg K) running time + O(K) memory
+  
+  java中priority queue的结构保证了第一个值一定是在队列中最小的值，整个队列最多存k个值，因此最终把整个数组遍历了一遍以后剩下的k个值是数组中最大的k个值，且k th值就在头部。
+  Priority queue复习知识点：  https://www.cnblogs.com/Elliott-Su-Faith-change-our-life/p/7472265.html
+  
+public int findKthLargest(int[] nums, int k) {
+
+    final PriorityQueue<Integer> pq = new PriorityQueue<>();
+    for(int val : nums) {
+        pq.offer(val);
+
+        if(pq.size() > k) {
+            pq.poll();
+        }
+    }
+    return pq.peek();
+}
+
+
+
+Solution 3:Quick Select
+
+复习快速排序：    https://blog.csdn.net/morewindows/article/details/6684558
+
+
+链接上的方法与下面的排序方法大致相同，但是有所区别。下方法key位置的值在一整次的交换中，最后再交换，而链接中是直接开始参与交换。
+
+一次快速排序后返回的pivot位置代表着这个对应数值在整个数组中从小排列的位置，与index比较，相等即返回,当pivot大于index,即所求值在左半边，缩减范围至左边，然后继续排序；当所求值在右半边，缩减范围到右边，然后继续排序；直到start==end,返回nums[start]或者nums[end]都可以，因为是一样。
+
+
+
+public class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        int start = 0, end = nums.length - 1, index = nums.length - k;    将求第k大的值,即求从小到大排序位置在nums.length-
+        while (start < end) {              //分治过程
+            int pivot = partion(nums, start, end);
+            if (pivot < index) start = pivot + 1; 
+            else if (pivot > index) end = pivot - 1;
+            else return nums[pivot];
+        }
+        return nums[start];
+    }
+    
+    private int partion(int[] nums, int start, int end) {      
+        int pivot = start, temp;
+        while (start <= end) {
+            while (start <= end && nums[start] <= nums[pivot]) start++;
+            while (start <= end && nums[end] > nums[pivot]) end--;
+            if (start > end) break;
+            temp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = temp;
+        }
+        temp = nums[end];
+        nums[end] = nums[pivot];
+        nums[pivot] = temp;
+        return end;
+    }
+}
+
