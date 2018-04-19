@@ -1,0 +1,32 @@
+Description:  在BST中，返回指定p,q节点的最矮的共同的subroot.
+
+solution: 从root开始，当p,q全在root的某一边时，root.val是大于p,q的或者小于p,q的，这时候把root向靠近这两个节点的方向更新。只要发现不符合上述的值的情况了，直接返回root。因为这样此时的root一定是在p,q的中间或者就是其中的某个节点，不能再矮了。
+
+recursive
+
+public class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root.val > p.val && root.val > q.val){
+            return lowestCommonAncestor(root.left, p, q);
+        }else if(root.val < p.val && root.val < q.val){
+            return lowestCommonAncestor(root.right, p, q);
+        }else{
+            return root;
+        }
+    }
+}
+
+nonrecursive
+
+public class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        while (true) {
+            if (root.val > p.val && root.val > q.val)
+                root = root.left;
+            else if (root.val < p.val && root.val < q.val)
+                root = root.right;
+            else
+                return root;
+        }
+    }
+}
