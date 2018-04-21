@@ -1,0 +1,23 @@
+Description: 一个二维矩阵 每列从上至下递增，每行从左到右增。判断矩阵中是否存在target.
+
+Solution:这题在从起点开始搜索，然后更新搜索位置的时候需要考虑搜索路径是不能回头的。假如row+1了，如果target就在row那一行，结果就会出错，所以必须保证在每一次更新row 或者col的时候，target一定不会在col或者row上。
+如果按照传统的一行一行搜索的话，我们可以把起点设置在最后一列的第一行，这样能明确的分析出可不可能在这一行（因为最后一列的值是相应值所在行的最大值）。如果target大于这个值，则row++，小于则col--,否则return true;
+
+
+ public boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix == null || matrix.length < 1 || matrix[0].length <1) {
+            return false;
+        }
+        int col = matrix[0].length-1;
+        int row = 0;
+        while(col >= 0 && row <= matrix.length-1) {
+            if(target == matrix[row][col]) {
+                return true;
+            } else if(target < matrix[row][col]) {
+                col--;
+            } else if(target > matrix[row][col]) {
+                row++;
+            }
+        }
+        return false;
+    }
