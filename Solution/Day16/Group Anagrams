@@ -1,0 +1,22 @@
+
+
+Description:Given an array of strings, group anagrams together.
+
+
+Solution:
+public List<List<String>> groupAnagrams(String[] strs) {
+        if (strs == null || strs.length == 0) return new ArrayList<List<String>>();
+        Map<String, List<String>> map = new HashMap<String, List<String>>();
+        for (String s : strs) {
+            char[] ca = s.toCharArray();            //s到keystr的转换将s中的字母顺序排列，目的是方便map判断是否存在同类型的字符串
+            Arrays.sort(ca);                        //
+            String keyStr = String.valueOf(ca);     //
+            if (!map.containsKey(keyStr)) map.put(keyStr, new ArrayList<String>());
+            map.get(keyStr).add(s);
+        }
+        return new ArrayList<List<String>>(map.values());
+    }
+    
+    
+    Note:  字符串转字符数组  s.to CharArray();
+           字符数组转字符串  String.valueOf(char[] c)
