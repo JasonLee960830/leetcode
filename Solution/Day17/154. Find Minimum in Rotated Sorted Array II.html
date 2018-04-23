@@ -1,0 +1,45 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <title></title>
+<style id="system" type="text/css">body{}</style><style id="custom" type="text/css"></style></head>
+<body marginheight="0"><h2>Description</h2>
+<p>Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
+
+</p>
+<p>(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+
+</p>
+<p>Find the minimum element.
+
+</p>
+<h2>Solution:</h2>
+<p>Just compare the adjacent element,if the former is larger than the latter, it is the latter element
+that we want, for it is abnormal to have the latter smaller than the former in the acsending . If not, we just need to store the smaller element 
+because it may be the result we want if the pivot is at the most frontend which means the acsending sort
+order is not changed.  Once we find the latter smaller than former, we return the latter.
+
+</p>
+<h2>Code:</h2>
+<pre><code> public int findMin(int[] nums) {
+        if(nums.length==1)
+            return nums[0];
+        int res=0;
+        if(nums[0]&lt;=nums[1])
+                res=nums[0];
+        if(nums[0]&gt;nums[1])
+            return nums[1];
+        for(int i=1;i&lt;nums.length-1;i++){
+            if(nums[i]&lt;=nums[i+1])
+                continue;
+            return nums[i+1];
+        }
+        return res;
+    }</code></pre>
+<h2>Analysis:</h2>
+<p>the best situation cost O(1) Time complexity and O(1) Space Complexity, and the worst cost
+O(n) Time complexity and O(1) Space complexity.
+
+</p>
+<p>Totally, the average Time complexity is O(n/2).
+Edit By <a href="http://mahua.jser.me">MaHua</a></p>
+</body></html>
