@@ -1,4 +1,5 @@
 # leetcode
 Update the process daily
 
-I join the group today in 4.7.
+##Day19. 
+Game of Life  use 2bits(00 01 10 11) to create states machine
