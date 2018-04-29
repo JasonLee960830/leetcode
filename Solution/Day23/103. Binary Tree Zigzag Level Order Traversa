@@ -1,0 +1,58 @@
+# Description： 即在偶数层顺序遍历存值，奇数层逆序遍历存值。
+
+# Solution: 
+深度遍历
+在辅助函数内，先判断当前节点是否为空，为空则返回，不为空则将list与当前的level比较，当处在最深层的level时，即list.size()<level,或者在最初level和list.size()
+都为0的时候，即list.size()==level,需要在list中添加一个子链表作为list的元素。子链表来存储当前层的元素。
+此时需要注意不能在已添加的子链表中直接添加元素，会报错，正确做法时再申城一个链表，然后添加值后再更新到list中的这个链表中去。
+给每层相应地赋好了空间，接下来只需要判断当前层是不是偶数层，是的话则这层的每个值加在子链表的后面；不是的话每个值加在子链表的首位newL.add(0,cur.val)
+然后递归调用辅助函数向左子树和右子树遍历。
+ public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>>list=new ArrayList<>();
+        helper(root,list,0);
+            return list;
+        
+    }
+    public void helper(TreeNode cur,List<List<Integer>>list,int level){
+        if(cur==null)
+            return;
+        if(list.size()<=level){
+            List<Integer>newList=new LinkedList<>();
+            list.add(newList);
+        }
+        List<Integer>newL=list.get(level);
+        if(level%2!=0){
+            newL.add(0,cur.val);
+        }
+        else
+            newL.add(cur.val);
+        helper(cur.left,list,level+1);
+        helper(cur.right,list,level+1);
+    }
+    
+广度遍历
+使用队列。初始化时需要先将root放入队列中，然后进入while循环(while循环条件是队列是否为空)，循环每次开始时计算队列的大小，就是当前level的节点个数，在判断level的奇偶性以后，产生一个新的链表，决定是加在链表首位还是尾部，然后循环size次（这里注意size要提前啊用queue.size()赋值好，因为在每次poll以后queue.size()值就变了，不是一个常量了！！！）
+public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+         List<List<Integer>>result=new LinkedList<>();
+         Queue<TreeNode>queue=new LinkedList<>();
+         if(root==null)
+             return result;
+         queue.add(root);
+         while(!queue.isEmpty()){
+             int size=queue.size();
+             List<Integer>subList=new LinkedList<>();
+             for(int i=0;i<size;i++){
+                 TreeNode node=queue.poll();
+                 if(result.size()%2==0)
+                     subList.add(node.val);
+                 else
+                     subList.add(0,node.val);
+                 if(node.left!=null)
+                     queue.offer(node.left);
+                 if(node.right!=null)
+                     queue.offer(node.right);
+             }
+             result.add(subList);
+         }
+         return result;
+     }
