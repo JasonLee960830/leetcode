@@ -1,0 +1,35 @@
+每个序列都是把这个序列的上一个序列当作count的对象，然后以say的方式写成这个序列
+1
+11
+21
+1211
+111221
+312211
+13112221
+....
+
+要求得第nth序列，需要执行count and say过程n-1次,所以需要调用辅助函数n-1次。
+辅助函数中有两层循环，第一层负责say时 “m个n”中的n, 第二层负责say时"m个n中的m".
+public String countAndSay(int n) {
+       String s="1";
+        for(int i=0;i<n-1;i++){
+            s=getS(s);
+        }
+        return s;
+        
+    }
+    public String getS(String s){
+        StringBuilder sb=new StringBuilder();
+        int i,j;
+        for(i=0;i<s.length();){
+            for( j=i+1;j<s.length();){
+                if(s.charAt(i)==s.charAt(j))
+                    j++;
+                else break;
+            }
+            sb.append(j-i);
+            sb.append(s.charAt(i));
+            i=j;
+        }
+        return sb.toString();
+    }
