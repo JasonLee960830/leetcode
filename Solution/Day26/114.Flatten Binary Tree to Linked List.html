@@ -1,0 +1,88 @@
+
+<body marginheight="0"><h1>Description:</h1>
+<p>Given a binary tree, flatten it to a linked list in-place.
+
+</p>
+<p>For example, given the following tree:
+</p>
+<pre><code>
+    1
+   / \
+  2   5
+ / \   \
+3   4   6</code></pre>
+<p>The flattened tree should look like:
+</p>
+<pre><code>1
+ \
+  2
+   \
+    3
+     \
+      4
+       \
+        5
+         \
+          6</code></pre>
+<h2>Solution 1</h2>
+<p>we can build our final links by using reverse pre-order traversal. We use recursive method to find the last element
+in the pre-order traversal. In the example. we process '6' first, then '5',then '4','3','2','1'.The mission of every
+process is simple:
+</p>
+<pre><code>1.  let the node's left is equal 
+2.  the node's right points to pre pointer(initially is null)
+3.  update the pre to be the node now</code></pre>
+<p>The link's building process is like:
+</p>
+<pre><code>6
+
+5
+ \
+  6
+
+4
+ \
+  5
+   \
+    6
+
+...</code></pre>
+<pre><code class="lang-java"> public TreeNode pre=null; 
+    public void flatten(TreeNode root) {
+        if(root==null)
+            return;
+        flatten(root.right);
+        flatten(root.left);
+        root.right=pre;
+        root.left=null;
+        pre=root;
+    }
+    }</code></pre>
+<h2>Solution 2</h2>
+<p>Use a queue to store elements in preOrder. Then everytime poll one element from the queue, adjust the child pointer
+and update the cur pointer.
+<strong><em>Tips: Remember to take the case of a root only  except from the algorithm, or the root's right will be root, which can
+make error</em></strong>
+
+</p>
+<p>public void flatten(TreeNode root) {
+        Queue<treenode>queue=new LinkedList&lt;&gt;();
+          if(root==null||(root.left==null&amp;&amp;root.right==null)) return;   //exclude that the tree has only root or nothing.
+        preOrder(queue,root);
+        TreeNode cur=root;
+        while(!queue.isEmpty()){
+         cur.right=queue.poll();
+          cur.left=null;
+            cur=cur.right;
+        }
+    }
+    public void preOrder(Queue<treenode>queue,TreeNode root){     //store the elements in pre order
+        if(root==null)return;
+        queue.offer(root);
+        preOrder(queue,root.left);
+        preOrder(queue,root.right);
+    }
+
+</treenode></treenode></p>
+<p>Edit By <a href="http://mahua.jser.me">MaHua</a></p>
+</body></html>
